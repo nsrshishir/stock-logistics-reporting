@@ -178,13 +178,13 @@ class StockLocationAtDateWizard(models.TransientModel):
                 GROUP BY svl.product_id
             ),
             latest_svl_cost AS (
-                SELECT DISTINCT ON (svl2.product_id)
-                    svl2.product_id,
-                    svl2.unit_cost
-                FROM stock_valuation_layer svl2
+                SELECT DISTINCT ON (svl.product_id)
+                    svl.product_id,
+                    svl.unit_cost
+                FROM stock_valuation_layer svl
                 WHERE {svl_where_clause}
-                  AND svl2.unit_cost > 0
-                ORDER BY svl2.product_id, svl2.create_date DESC, svl2.id DESC
+                  AND svl.unit_cost > 0
+                ORDER BY svl.product_id, svl.create_date DESC, svl.id DESC
             )
             INSERT INTO stock_location_at_date_report (
                 create_uid,

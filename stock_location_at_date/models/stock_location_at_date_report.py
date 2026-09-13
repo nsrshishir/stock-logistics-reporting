@@ -87,6 +87,11 @@ class StockLocationAtDateReport(models.Model):
         )
         self.env.cr.execute(
             f"""
+            ALTER TABLE {self._table} ADD COLUMN IF NOT EXISTS cost_method VARCHAR
+            """
+        )
+        self.env.cr.execute(
+            f"""
             CREATE INDEX IF NOT EXISTS stock_location_at_date_report_uid_idx
             ON {self._table} (create_uid)
             """
